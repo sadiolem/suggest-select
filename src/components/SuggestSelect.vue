@@ -1,5 +1,5 @@
 <template>
-  <div class="app-select">
+  <div class="suggest-select">
     <label v-if="label" for="select" class="select-label">
       {{ label }}
     </label>
@@ -129,7 +129,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.app-select {
+.suggest-select {
   position: relative;
 
   .select-label {
