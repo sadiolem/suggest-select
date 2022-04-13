@@ -79,13 +79,19 @@ export default {
       selectedOption: null,
       inputValue: '',
       isInputReadonly: false,
+      apiURL: 'https://habr.com/kek/v2/publication/suggest-mention?q=',
     };
   },
   methods: {
     async fetchSuggestOptions() {
       this.loading = true;
-      const { data } = await api.getSuggestOptions(this.inputValue);
+      const { data, error } = await api.getSuggestOptions(this.apiURL, this.inputValue);
       this.loading = false;
+
+      if (error) {
+        alert(error.message);
+        return;
+      }
 
       this.suggestOptions = data;
     },

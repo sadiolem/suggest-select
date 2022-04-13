@@ -1,14 +1,14 @@
-const getSuggestOptions = async (query) => {
-  const url = new URL('https://habr.com/kek/v2/publication/suggest-mention');
-  url.searchParams.set('q', query);
-  url.toString();
+const getSuggestOptions = async (url, query) => {
+  try {
+    const response = await fetch(`${url}${query}`);
+    const data = await response.json();
 
-  const response = await fetch(url);
-  const data = await response.json();
+    if (response.ok) return data;
 
-  // TODO errors handler
-
-  return data;
+    return { data: null, error: data };
+  } catch (error) {
+    return new Error(error);
+  }
 };
 
 export default { getSuggestOptions };
