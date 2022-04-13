@@ -31,6 +31,7 @@
       <div
         v-for="(option, i) in suggestOptions"
         :key="i"
+        tabindex="0"
         class="suggest-option"
         @keypress.enter="selectOption(option)"
         @click="selectOption(option)"
