@@ -1,4 +1,4 @@
-const getSuggestSearch = async (query) => {
+const getSuggestOptions = async (query) => {
   const url = new URL('https://habr.com/kek/v2/publication/suggest-mention');
   url.searchParams.set('q', query);
   url.toString();
@@ -11,4 +11,4 @@ const getSuggestSearch = async (query) => {
   return data;
 };
 
-export default { getSuggestSearch };
+export default { getSuggestOptions };

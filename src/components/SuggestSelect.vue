@@ -80,7 +80,7 @@ export default {
   methods: {
     async fetchSuggestOptions() {
       this.loading = true;
-      const { data } = await api.getSuggestSearch(this.inputValue);
+      const { data } = await api.getSuggestOptions(this.inputValue);
       this.loading = false;
 
       this.suggestOptions = data;
@@ -177,6 +177,7 @@ export default {
       padding: 10px;
       transition: background-color 0.2s ease;
 
+      &:focus,
       &:hover {
         background-color: #f1f1f1;
       }
