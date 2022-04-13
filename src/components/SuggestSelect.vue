@@ -17,10 +17,11 @@
       >
 
       <!-- TODO focused and backspace pressed -> remove -->
-      <div v-if="selectedOption" class="option-chip">
-        {{ `@${selectedOption.alias}` }}
-        <button class="delete-btn" @click="clearSelectedOption">x</button>
-      </div>
+      <InputChip
+        v-if="selectedOption"
+        :value="`@${selectedOption.alias}`"
+        @removeChip="clearSelectedOption"
+      />
 
       <CircularLoader v-if="loading" class="loader" />
     </div>
@@ -34,6 +35,7 @@
         @click="selectOption(option)"
       >
         <!-- TODO create separate components for user and company -->
+        <!-- TODO use some default img if no avatar -->
         <img :src="option.avatar" height="48" width="48" alt="">
         <div>
           <span class="name">{{ option.name || `@${option.alias}` }}</span>
@@ -47,11 +49,13 @@
 
 <script>
 import api from '@/api';
+import InputChip from '@/components/InputChip.vue';
 import CircularLoader from '@/components/CircularLoader.vue';
 
 export default {
   name: 'SuggestSelect',
   components: {
+    InputChip,
     CircularLoader,
   },
   props: {
@@ -133,26 +137,6 @@ export default {
       padding: 10px;
       border: 1px solid;
       border-radius: 0;
-    }
-
-    .option-chip {
-      position: absolute;
-      top: 4px;
-      left: 5px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: fit-content;
-      padding: 5px;
-      color: #fff;
-      background-color: #3498db;
-
-      .delete-btn {
-        color: #fff;
-        border: none;
-        background: transparent;
-        cursor: pointer;
-      }
     }
 
     .loader {
