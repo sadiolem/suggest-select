@@ -20,6 +20,7 @@
       <InputChip
         v-if="selectedOption"
         :value="`@${selectedOption.alias}`"
+        class="chip"
         @removeChip="clearSelectedOption"
       />
 
@@ -143,6 +144,12 @@ export default {
       padding: 10px;
       border: 1px solid;
       border-radius: 0;
+    }
+
+    .chip {
+      position: absolute;
+      top: 4px;
+      left: 5px;
     }
 
     .loader {

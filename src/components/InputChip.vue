@@ -19,9 +19,6 @@ export default {
 
 <style lang="scss" scoped>
 .option-chip {
-  position: absolute;
-  top: 4px;
-  left: 5px;
   display: flex;
   align-items: center;
   gap: 10px;
