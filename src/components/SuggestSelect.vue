@@ -10,7 +10,7 @@
         id="select"
         type="text"
         autocomplete="off"
-        :readonly="isInputIsReadonly"
+        :readonly="isInputReadonly"
         :placeholder="placeholder"
         class="select-input"
         @input="handleTyping"
@@ -77,7 +77,7 @@ export default {
       debounceTimer: null,
       selectedOption: null,
       inputValue: '',
-      isInputIsReadonly: false,
+      isInputReadonly: false,
     };
   },
   methods: {
@@ -104,7 +104,7 @@ export default {
     selectOption(option) {
       this.selectedOption = option;
       this.inputValue = this.selectedOption.alias;
-      this.isInputIsReadonly = true;
+      this.isInputReadonly = true;
       this.clearOptions();
     },
     clearOptions() {
@@ -113,7 +113,7 @@ export default {
     clearSelectedOption() {
       this.selectedOption = null;
       this.inputValue = '';
-      this.isInputIsReadonly = false;
+      this.isInputReadonly = false;
     },
   },
 };
