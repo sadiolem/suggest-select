@@ -77,7 +77,6 @@ export default {
       debounceTimer: null,
       selectedOption: null,
       inputValue: '',
-      kek: true,
       isInputIsReadonly: false,
     };
   },
