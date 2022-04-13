@@ -38,8 +38,8 @@
         <!-- TODO use some default img if no avatar -->
         <img :src="option.avatar" height="48" width="48" alt="">
         <div>
-          <span class="name">{{ option.name || `@${option.alias}` }}</span>
-          <span class="alias">{{ `@${option.alias}` || option.name }}</span>
+          <span v-if="option.name" class="name">{{ option.name }}</span>
+          <span v-if="option.alias" class="alias">{{ `@${option.alias}` }}</span>
           <span v-if="option.type === 'company'" class="company-name">Компания</span>
         </div>
       </div>
