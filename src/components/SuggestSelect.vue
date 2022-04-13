@@ -38,9 +38,10 @@
         <!-- TODO use some default img if no avatar -->
         <img :src="option.avatar" height="48" width="48" alt="">
         <div>
-          <span v-if="option.name" class="name">{{ option.name }}</span>
-          <span v-if="option.alias" class="alias">{{ `@${option.alias}` }}</span>
-          <span v-if="option.type === 'company'" class="company-name">Компания</span>
+          <span class="name">{{ option.name || `@${option.alias}` }}</span>
+          <span class="additional-info">
+            {{ option.type === 'company' ? 'Компания' : `@${option.alias}` }}
+          </span>
         </div>
       </div>
     </div>
@@ -165,13 +166,12 @@ export default {
         background-color: #f1f1f1;
       }
 
-      .alias,
+      .additional-info,
       .name {
         display: block;
       }
 
-      .company-name,
-      .alias {
+      .additional-info {
         color: #c3c3c3;
         font-size: 14px;
       }
