@@ -27,6 +27,7 @@
       <CircularLoader v-if="loading" class="loader" />
     </div>
 
+    <!-- TODO slot -->
     <div id="suggest-options" class="suggest-options-list">
       <div
         v-for="(option, i) in suggestOptions"
