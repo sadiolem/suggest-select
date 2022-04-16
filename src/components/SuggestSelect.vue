@@ -13,7 +13,7 @@
         :readonly="isInputReadonly"
         :placeholder="placeholder"
         class="select-input"
-        @input="handleTyping"
+        @input="$emit('input', $event)"
       >
 
       <!-- TODO focused and backspace pressed -> remove -->
@@ -25,42 +25,24 @@
       />
 
       <CircularLoader v-if="loading" class="loader" />
-    </div>
 
-    <!-- TODO slot -->
-    <div id="suggest-options" class="suggest-options-list">
-      <div
-        v-for="(option, i) in suggestOptions"
-        :key="i"
-        tabindex="0"
-        class="suggest-option"
-        @keypress.enter="selectOption(option)"
-        @click="selectOption(option)"
-      >
-        <!-- TODO create separate components for user and company -->
-        <!-- TODO use some default img if no avatar -->
-        <img :src="option.avatar" height="48" width="48" alt="">
-        <div>
-          <span class="name">{{ option.name || `@${option.alias}` }}</span>
-          <span class="additional-info">
-            {{ option.type === 'company' ? 'Компания' : `@${option.alias}` }}
-          </span>
-        </div>
-      </div>
+      <!-- TODO use slot -->
+      <SuggestSelectDropDown v-if="isShowOptions" :options="items" @selectOption="selectOption" />
     </div>
   </div>
 </template>
 
 <script>
-import api from '@/api';
 import InputChip from '@/components/InputChip.vue';
 import CircularLoader from '@/components/CircularLoader.vue';
+import SuggestSelectDropDown from '@/components/SuggestSelectDropDown.vue';
 
 export default {
   name: 'SuggestSelect',
   components: {
     InputChip,
     CircularLoader,
+    SuggestSelectDropDown,
   },
   props: {
     label: {
@@ -68,57 +50,51 @@ export default {
       required: false,
       default: '',
     },
+    value: {
+      type: String,
+      required: true,
+    },
+    items: {
+      type: [Array, Object],
+      required: true,
+    },
     placeholder: {
       type: String,
       required: false,
       default: '',
     },
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
-      loading: false,
       suggestOptions: {},
       debounceTimer: null,
       selectedOption: null,
-      inputValue: '',
       isInputReadonly: false,
-      apiURL: 'https://habr.com/kek/v2/publication/suggest-mention?q=',
+      isShowOptions: false,
     };
   },
+  computed: {
+    inputValue: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        if (value) this.isShowOptions = true;
+        this.$emit('update:value', value);
+      },
+    },
+  },
   methods: {
-    async fetchSuggestOptions() {
-      this.loading = true;
-      const { data, error } = await api.getSuggestOptions(this.apiURL, this.inputValue);
-      this.loading = false;
-
-      if (error) {
-        alert(error.message);
-        return;
-      }
-
-      this.suggestOptions = data;
-    },
-    handleTyping() {
-      if (this.inputValue.length < 3) {
-        this.clearOptions();
-        return;
-      }
-
-      if (this.debounceTimer) clearTimeout(this.debounceTimer);
-
-      this.debounceTimer = setTimeout(() => {
-        this.fetchSuggestOptions();
-        this.debounceTimer = null;
-      }, 600);
-    },
     selectOption(option) {
       this.selectedOption = option;
       this.inputValue = this.selectedOption.alias;
       this.isInputReadonly = true;
-      this.clearOptions();
-    },
-    clearOptions() {
-      this.suggestOptions = {};
+      this.isShowOptions = false;
     },
     clearSelectedOption() {
       this.selectedOption = null;
@@ -157,39 +133,6 @@ export default {
     .loader {
       top: 8px;
       right: 10px;
-    }
-  }
-
-  .suggest-options-list {
-    position: absolute;
-    width: 100%;
-    max-height: 282px;
-    overflow: hidden;
-    overflow-y: auto;
-    background-color: #fff;
-    box-shadow: 0 6px 10px 0 #ccc;
-
-    .suggest-option {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px;
-      transition: background-color 0.2s ease;
-
-      &:focus,
-      &:hover {
-        background-color: #f1f1f1;
-      }
-
-      .additional-info,
-      .name {
-        display: block;
-      }
-
-      .additional-info {
-        color: #c3c3c3;
-        font-size: 14px;
-      }
     }
   }
 }
