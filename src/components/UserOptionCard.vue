@@ -1,6 +1,6 @@
 <template>
   <div class="user-option-card">
-    <img :src="user.avatar" height="48" width="48" alt="">
+    <img :src="user.avatar || '/img/default-user-img.jpeg'" height="48" width="48" alt="">
     <div>
       <span class="name">{{ user.name || `@${user.alias}` }}</span>
       <span class="additional-info">

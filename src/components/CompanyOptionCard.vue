@@ -1,6 +1,6 @@
 <template>
   <div class="company-option-card">
-    <img :src="company.avatar" height="48" width="48" alt="">
+    <img :src="company.avatar || '/img/default-company-img.png'" height="48" width="48" alt="">
     <div>
       <span class="name">{{ company.name || `@${company.alias}` }}</span>
       <span class="additional-info">
