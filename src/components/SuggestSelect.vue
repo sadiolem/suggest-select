@@ -1,13 +1,13 @@
 <template>
   <div class="suggest-select">
-    <label v-if="label" for="select" class="select-label">
+    <label v-if="label" for="suggest-select" class="select-label">
       {{ label }}
     </label>
     <div class="input-wrapper">
       <!-- TODO keyboard accessibility (arrow key up/down -> focus options) -->
       <input
         v-model.trim="inputValue"
-        id="select"
+        id="suggest-select"
         type="text"
         autocomplete="off"
         :readonly="isInputReadonly"
@@ -17,6 +17,7 @@
       >
 
       <!-- TODO focused and backspace pressed -> remove -->
+      <!-- TODO use slot for selected option view -->
       <InputChip
         v-if="selectedOption"
         :value="`@${selectedOption.alias}`"
@@ -31,7 +32,6 @@
           v-for="(option, i) in items"
           :key="i"
           tabindex="0"
-          class="suggest-option"
           @keypress.enter="selectOption(option)"
           @click="selectOption(option)"
         >
@@ -152,30 +152,6 @@ export default {
     overflow-y: auto;
     background-color: #fff;
     box-shadow: 0 6px 10px 0 #ccc;
-
-    .suggest-option {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px;
-      transition: background-color 0.2s ease;
-      cursor: pointer;
-
-      &:focus,
-      &:hover {
-        background-color: #f1f1f1;
-      }
-
-      .additional-info,
-      .name {
-        display: block;
-      }
-
-      .additional-info {
-        color: #c3c3c3;
-        font-size: 14px;
-      }
-    }
   }
 }
 </style>

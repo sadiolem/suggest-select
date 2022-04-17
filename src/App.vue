@@ -9,15 +9,8 @@
       @input="handleTyping"
     >
       <template #option="{ option }">
-        <!-- TODO create separate components for user and company -->
-        <!-- TODO use some default img if no avatar -->
-        <img :src="option.avatar" height="48" width="48" alt="">
-        <div>
-          <span class="name">{{ option.name || `@${option.alias}` }}</span>
-          <span class="additional-info">
-            {{ option.type === 'company' ? 'Компания' : `@${option.alias}` }}
-          </span>
-        </div>
+        <CompanyOptionCard v-if="option.type === 'company'" :company="option"/>
+        <UserOptionCard v-else :user="option" />
       </template>
     </SuggestSelect>
   </div>
@@ -25,12 +18,16 @@
 
 <script>
 import api from '@/api';
+import UserOptionCard from '@/components/UserOptionCard.vue';
+import CompanyOptionCard from '@/components/CompanyOptionCard.vue';
 import SuggestSelect from './components/SuggestSelect.vue';
 
 export default {
   name: 'App',
   components: {
+    CompanyOptionCard,
     SuggestSelect,
+    UserOptionCard,
   },
   data() {
     return {
