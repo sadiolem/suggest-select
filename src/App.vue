@@ -7,7 +7,19 @@
       :items="items"
       :loading="loading"
       @input="handleTyping"
-    />
+    >
+      <template #option="{ option }">
+        <!-- TODO create separate components for user and company -->
+        <!-- TODO use some default img if no avatar -->
+        <img :src="option.avatar" height="48" width="48" alt="">
+        <div>
+          <span class="name">{{ option.name || `@${option.alias}` }}</span>
+          <span class="additional-info">
+            {{ option.type === 'company' ? 'Компания' : `@${option.alias}` }}
+          </span>
+        </div>
+      </template>
+    </SuggestSelect>
   </div>
 </template>
 
@@ -42,7 +54,7 @@ export default {
       this.items = data;
     },
     handleTyping({ target }) {
-      if (target.value.length < 3) {
+      if (target?.value?.length < 3) {
         this.items = {};
         return;
       }
